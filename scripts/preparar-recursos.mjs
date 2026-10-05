@@ -108,10 +108,12 @@ execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', `${IN}/Fondo.mp4`, '-an', '-v
   'public/medios/fondo-intro.mp4']);
 execFileSync('ffmpeg', ['-y', '-v', 'error', '-ss', '1', '-i', `${IN}/Fondo.mp4`, '-frames:v', '1', '-vf', 'crop=1064:1892', '-q:v', '2', await salida('intro/poster.jpg')]);
 console.log('video public/medios/fondo-intro.mp4 + intro/poster.jpg');
-// Música de fondo: sin el silencio final, volumen de fondo (-21 LUFS), fundidos de entrada/salida
-// incluidos (en iPhone el volumen no se controla desde la página) y AAC para iPhone y Android.
+// Música de fondo (entrada/musica.mp3): sin el silencio final, volumen de fondo (-21 LUFS), fundidos
+// de entrada/salida incluidos (en iPhone el volumen no se controla desde la página) y AAC para iPhone y
+// Android. Al cambiar la canción, ajustar MUSICA_FIN (segundo donde empieza el silencio final).
+const MUSICA_FIN = 160.0;
 execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', `${IN}/musica.mp3`, '-af',
-  'atrim=0:269.3,asetpts=N/SR/TB,loudnorm=I=-21:TP=-2:LRA=9,afade=t=in:d=2.5,afade=t=out:st=266.3:d=3',
+  `atrim=0:${MUSICA_FIN},asetpts=N/SR/TB,loudnorm=I=-21:TP=-2:LRA=9,afade=t=in:d=2.5,afade=t=out:st=${MUSICA_FIN - 3}:d=3`,
   '-ar', '44100', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', 'public/medios/musica.m4a']);
 console.log('música public/medios/musica.m4a');
 await recortarAlfa(`${IN}/1.png`, 'sobre/cerrado-sobre.png');

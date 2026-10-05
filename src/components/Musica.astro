@@ -2,9 +2,14 @@
 // Música de fondo: empieza al tocar el sobre (los navegadores no permiten sonido sin un toque previo)
 // y se puede silenciar con el botón flotante. El fundido de entrada/salida viene en el propio archivo
 // (en iPhone el volumen no se puede controlar desde la página).
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+
+// Versión según el contenido: si cambia la canción, cambia la URL y nadie oye la anterior en caché
+const version = createHash('sha1').update(readFileSync('public/medios/musica.m4a')).digest('hex').slice(0, 8);
 ---
 
-<audio id="musica" src="/medios/musica.m4a" loop preload="none"></audio>
+<audio id="musica" src={`/medios/musica.m4a?v=${version}`} loop preload="none"></audio>
 
 <button class="musica" id="boton-musica" type="button" aria-label="Silenciar música" aria-pressed="true" hidden>
   <span class="musica__barras" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
