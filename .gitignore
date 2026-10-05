@@ -9,3 +9,5 @@ figma-export/raw/
 qa/capturas/
 demo/captura/
 demo/salida/
+.wrangler/
+ffmpeg2pass-*
