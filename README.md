@@ -53,4 +53,4 @@ Con `npm run dev` corriendo: `npm run qa` (comparación lado a lado con Figma, p
 1. Subir el repo a GitHub (privado).
 2. Cloudflare → Workers & Pages → Create → Pages → conectar el repo.
 3. Preset **Astro**, build `npm run build`, salida `dist`, variable `NODE_VERSION = 22`.
-4. Si el subdominio no es `katalina15.pages.dev`, actualizar `site` en `astro.config.mjs`.
+4. URL pública: https://katalina-invitacion-a-mis15.pages.dev (si cambia, actualizar `site` en `astro.config.mjs`).
