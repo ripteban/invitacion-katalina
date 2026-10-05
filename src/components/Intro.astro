@@ -1,0 +1,47 @@
+---
+// Pantalla inicial (Figma: frames "01" y "2").
+// El fondo de seda (video) vive en Fondo.astro, compartido con la versión tablet/escritorio.
+import Encabezado from './Encabezado.astro';
+import Sobre from './Sobre.astro';
+---
+
+<div class="intro" id="intro">
+  <div class="intro__contenedor">
+    <Encabezado />
+    <Sobre />
+    <p class="intro__texto montserrat">Haz clic en el sobre.</p>
+  </div>
+</div>
+
+<style>
+  .intro {
+    --k: var(--ui);
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    overflow: hidden;
+  }
+  /* Columna centrada con auto-layout de Figma: al crecer el sobre, el título sube y el texto baja */
+  .intro__contenedor {
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 26.5 * var(--k));
+    translate: -50% -50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(10 * var(--k));
+    padding: calc(24 * var(--k)) calc(19 * var(--k));
+  }
+  .intro__texto {
+    font-size: calc(30.454 * var(--k));
+    line-height: normal;
+    white-space: nowrap;
+    background-image: var(--degradado-intro);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+  }
+</style>

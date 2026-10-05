@@ -1,0 +1,50 @@
+---
+// Imagen optimizada: WebP de alta calidad en varios anchos; el navegador elige según el tamaño real
+// en pantalla (sizes), que depende del breakpoint (ver tokens.css) y de la densidad del teléfono.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  /** ancho de diseño en Figma (px) */
+  ancho: number;
+  alt?: string;
+  calidad?: number;
+  class?: string;
+  style?: string;
+  eager?: boolean;
+  /** 'home' escala con --u (ancho de la invitación); 'intro' escala con --ui (ancho y alto de pantalla) */
+  escala?: 'home' | 'intro';
+}
+
+const { src, ancho, alt = '', calidad = 80, class: clase = 'llenar', style, eager = false, escala = 'home' } = Astro.props;
+
+const r = Math.round;
+// 1× … 4× del ancho de diseño, sin pasar del original
+const anchos = [...new Set([1, 1.5, 2, 3, 4].map((m) => Math.min(src.width, r(ancho * m))))];
+const vw = ((ancho / 412) * 100).toFixed(2);
+// Debe coincidir con los breakpoints de tokens.css
+const sizes =
+  escala === 'intro'
+    ? `(min-width: 600px) ${r(ancho * 1.6)}px, ${vw}vw`
+    : `(min-width: 600px) and (orientation: portrait) ${r((ancho * 640) / 412)}px, (min-width: 600px) ${r((ancho * 540) / 412)}px, ${vw}vw`;
+const w = Math.min(src.width, r(ancho));
+const alto = r((src.height * w) / src.width);
+---
+
+<picture class={clase} style={style}>
+  <Image
+    src={src}
+    alt={alt}
+    width={w}
+    height={alto}
+    widths={anchos}
+    sizes={sizes}
+    format="webp"
+    quality={calidad}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    fetchpriority={eager ? 'high' : undefined}
+    draggable="false"
+  />
+</picture>

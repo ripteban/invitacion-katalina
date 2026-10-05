@@ -1,0 +1,33 @@
+{
+  "name": "invitacion-katalina",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "recursos": "node scripts/preparar-recursos.mjs",
+    "og": "node scripts/generar-og.mjs",
+    "qa": "node scripts/qa-capturas.mjs && node scripts/qa-arrastre.mjs && node scripts/qa-tamanos.mjs",
+    "qa:peso": "node scripts/qa-peso.mjs http://localhost:4321 3"
+  },
+  "dependencies": {
+    "@fontsource/cormorant": "^5.3.0",
+    "@fontsource/great-vibes": "^5.3.0",
+    "@fontsource/montserrat": "^5.3.0",
+    "astro": "^7.3.5",
+    "gsap": "^3.15.0"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0",
+    "sharp": "^0.35.5",
+    "svgo": "^4.1.0"
+  }
+}

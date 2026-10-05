@@ -1,0 +1,170 @@
+/* Microanimaciones: movimientos lentos y pequeños para dar vida sin distraer.
+   Se usan las propiedades individuales translate / rotate / scale, que no chocan con el
+   transform que GSAP aplica al arrastrar ni con los espejos (.espejo) de Figma.
+   Cada elemento puede ajustar --dur, --retraso, --giro y --origen.
+   --vel acelera o frena todas a la vez (0.5 = doble de velocidad). */
+
+:root {
+  --vel: 0.5;
+}
+
+@keyframes flotar {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  50% {
+    translate: 0 calc(-5 * var(--k));
+    rotate: var(--giro, 2deg);
+  }
+}
+
+@keyframes flotar-suave {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 calc(-3 * var(--k));
+  }
+}
+
+@keyframes mecer {
+  0%,
+  100% {
+    rotate: calc(var(--giro, 2deg) * -1);
+  }
+  50% {
+    rotate: var(--giro, 2deg);
+  }
+}
+
+@keyframes brisa {
+  0%,
+  100% {
+    transform: skewX(-1.2deg);
+  }
+  50% {
+    transform: skewX(1.2deg);
+  }
+}
+
+@keyframes respirar {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: var(--escala, 1.025);
+  }
+}
+
+@keyframes flotar-giro {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  50% {
+    translate: 0 calc(-4 * var(--k));
+    rotate: var(--giro, 1.5deg);
+  }
+}
+
+@keyframes vaiven {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 0 calc(-1.5 * var(--k));
+  }
+  50% {
+    translate: 0 0;
+  }
+  75% {
+    translate: 0 calc(-0.8 * var(--k));
+  }
+}
+
+/* La mano pixelada "presiona": invita a tocar */
+@keyframes tocar {
+  0%,
+  55%,
+  100% {
+    scale: 1;
+    translate: 0 0;
+  }
+  65% {
+    scale: 0.86;
+    translate: calc(-2 * var(--k)) calc(-2 * var(--k));
+  }
+  80% {
+    scale: 1;
+    translate: 0 0;
+  }
+}
+
+.flotar {
+  display: block;
+  animation: flotar calc(var(--dur, 4.5s) * var(--vel)) ease-in-out calc(var(--retraso, 0s) * var(--vel)) infinite;
+}
+
+.flotar-suave {
+  animation: flotar-suave calc(var(--dur, 6s) * var(--vel)) ease-in-out calc(var(--retraso, 0s) * var(--vel)) infinite;
+}
+
+.anim-mecer {
+  transform-origin: var(--origen, 50% 50%);
+  animation: mecer calc(var(--dur, 6s) * var(--vel)) ease-in-out calc(var(--retraso, 0s) * var(--vel)) infinite;
+}
+
+.anim-brisa {
+  transform-origin: 50% 100%;
+  animation: brisa calc(var(--dur, 6s) * var(--vel)) ease-in-out calc(var(--retraso, 0s) * var(--vel)) infinite;
+}
+
+.anim-respirar {
+  transform-origin: var(--origen, 50% 50%);
+  animation: respirar calc(var(--dur, 5s) * var(--vel)) ease-in-out calc(var(--retraso, 0s) * var(--vel)) infinite;
+}
+
+.anim-flotar {
+  transform-origin: var(--origen, 50% 50%);
+  animation: flotar-giro calc(var(--dur, 6s) * var(--vel)) ease-in-out calc(var(--retraso, 0s) * var(--vel)) infinite;
+}
+
+.anim-vaiven {
+  animation: vaiven calc(var(--dur, 1.6s) * var(--vel)) ease-in-out calc(var(--retraso, 0s) * var(--vel)) infinite;
+}
+
+.anim-tocar {
+  transform-origin: 30% 10%;
+  animation: tocar calc(var(--dur, 1.8s) * var(--vel)) ease-in-out calc(var(--retraso, 0s) * var(--vel)) infinite;
+}
+
+/* Mientras se arrastra, la pieza deja de flotar */
+.levantada .flotar,
+.levantada .flotar-suave {
+  animation-play-state: paused;
+}
+
+/* Al abrir el sobre, la mano deja de presionar */
+.intro.abriendo .anim-tocar {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flotar,
+  .flotar-suave,
+  .anim-mecer,
+  .anim-brisa,
+  .anim-respirar,
+  .anim-flotar,
+  .anim-vaiven,
+  .anim-tocar,
+  .pista__mano {
+    animation: none !important;
+  }
+}

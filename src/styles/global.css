@@ -1,0 +1,126 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--fondo-home);
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.bloqueado {
+  overflow: hidden;
+}
+
+p {
+  margin: 0;
+}
+
+img,
+svg,
+video,
+picture {
+  display: block;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Posicionamiento con coordenadas de Figma:
+   --x, --y (absolutas en el frame), --w, --h, --z.
+   --top lo define la sección contenedora; --k es la unidad de escala. */
+.abs {
+  position: absolute;
+  left: calc(var(--x, 0) * var(--k));
+  top: calc((var(--y, 0) - var(--top, 0)) * var(--k));
+  width: calc(var(--w) * var(--k));
+  height: calc(var(--h) * var(--k));
+  z-index: var(--z, auto);
+}
+
+/* Secciones del Home: no crean contexto de apilamiento, así el orden de capas (z) es global como en Figma */
+.seccion {
+  position: absolute;
+  left: 0;
+  /* --extra: espacio agregado sobre el diseño de Figma (ver .home) */
+  top: calc((var(--top) + var(--extra, 0)) * var(--k));
+  width: 100%;
+}
+
+.espejo {
+  transform: scaleX(-1);
+}
+
+.llenar {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+picture > img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Texto con degradado de Figma; cada texto trae su --a (ángulo) */
+.texto-degradado {
+  /* Figma termina en #595959 a partir de 92.973 %, pero en su render ese tramo cae fuera del texto;
+     con la geometría de CSS asomaba en las esquinas, así que se omite. */
+  background-image: linear-gradient(var(--a), #e87c8e 12.683%, #5c4042 92.973%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.great-vibes {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+}
+
+.cormorant {
+  font-family: 'Cormorant', serif;
+  font-weight: 400;
+}
+
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Las imágenes no se seleccionan ni muestran el menú "Guardar imagen" */
+.home img,
+.intro img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}

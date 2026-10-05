@@ -1,0 +1,41 @@
+---
+// Sticker arrastrable (igual que las polaroids: se levanta con presión larga).
+import Img from './Img.astro';
+import type { Sticker } from '../data/galerias';
+
+type Props = Omit<Sticker, 'tipo'> & { indice: number };
+const { imagen, nombre, x, y, w, h, sombra, z, indice } = Astro.props;
+// Cada sticker flota con su propio ritmo para que no se muevan al unísono
+const dur = 4.2 + (indice % 3) * 0.7;
+const retraso = -((indice * 1.37) % dur).toFixed(2);
+const giro = indice % 2 ? 2.5 : -2.5;
+---
+
+<div
+  class:list={['abs', 'arrastrable', 'sticker', { 'sticker--sombra': sombra }]}
+  style={`--x:${x};--y:${y};--w:${w};--h:${h};--z:${z}`}
+  role="img"
+  aria-label={`Sticker de ${nombre}. Mantén presionado para moverlo.`}
+>
+  <span class="flotar llenar" style={`--dur:${dur}s;--retraso:${retraso}s;--giro:${giro}deg`}>
+    <Img src={imagen} ancho={w} />
+  </span>
+</div>
+
+<style>
+  .sticker {
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+    user-select: none;
+    cursor: grab;
+  }
+  .sticker--sombra {
+    filter: var(--sombra-sticker);
+  }
+  .sticker.levantada {
+    cursor: grabbing;
+  }
+  .sticker :global(img) {
+    object-fit: cover;
+  }
+</style>

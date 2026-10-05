@@ -1,0 +1,29 @@
+---
+// Franja blanca con el patrón "Dots" de Figma (412 × 50.45).
+import dots from '../assets/svg/separador.svg?url';
+
+interface Props {
+  y: number;
+  z: number;
+}
+const { y, z } = Astro.props;
+---
+
+<div class="abs separador" style={`--x:0;--y:${y};--w:412.008;--h:50.45;--z:${z}`} aria-hidden="true">
+  <img src={dots} alt="" width="416" height="45" loading="lazy" />
+</div>
+
+<style>
+  .separador {
+    background: #fff;
+    overflow: clip;
+  }
+  /* Figma: Dots 412.008 × 41.107 en y 4.67; el SVG sobresale (inset −4.55 % −0.45 %) por la sombra */
+  img {
+    position: absolute;
+    left: calc(-0.0045 * 412.008 * var(--k));
+    top: calc((4.671 - 0.0455 * 41.107) * var(--k));
+    width: calc(412.008 * 1.009 * var(--k));
+    height: calc(41.107 * 1.091 * var(--k));
+  }
+</style>

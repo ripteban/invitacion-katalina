@@ -1,0 +1,66 @@
+---
+// Polaroid arrastrable. El exterior se mueve (GSAP), el marco interior conserva la rotación de Figma.
+import Img from './Img.astro';
+import type { Polaroid } from '../data/galerias';
+
+type Props = Omit<Polaroid, 'tipo'> & { indice: number };
+const { foto, x, y, w, h, rot, sombra, z, indice } = Astro.props;
+const dur = 6 + (indice % 3) * 0.8;
+const retraso = -((indice * 2.1) % dur).toFixed(2);
+---
+
+<div
+  class="abs arrastrable polaroid"
+  style={`--x:${x};--y:${y};--w:${w};--h:${h};--z:${z}`}
+  role="img"
+  aria-label={`Foto ${indice} de Katalina. Mantén presionado para moverla.`}
+>
+  <div class:list={['polaroid__marco', 'flotar-suave', `polaroid__marco--${sombra}`]} style={`rotate:${rot}deg;--dur:${dur}s;--retraso:${retraso}s`}>
+    <Img src={foto} ancho={227.948} calidad={90} class="polaroid__foto" />
+  </div>
+</div>
+
+<style>
+  .polaroid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+    user-select: none;
+    cursor: grab;
+  }
+  .polaroid__marco {
+    position: relative;
+    flex: none;
+    width: calc(248.671 * var(--k));
+    height: calc(331.561 * var(--k));
+    background: #fff;
+    overflow: clip;
+    transition: box-shadow 150ms ease-out;
+  }
+  .polaroid__marco--a {
+    box-shadow: var(--sombra-polaroid-a);
+  }
+  .polaroid__marco--b {
+    box-shadow: var(--sombra-polaroid-b);
+  }
+  .polaroid.levantada {
+    cursor: grabbing;
+  }
+  .polaroid.levantada .polaroid__marco {
+    box-shadow: var(--sombra-polaroid-levantada);
+  }
+  .polaroid :global(.polaroid__foto) {
+    position: absolute;
+    left: calc(10.359 * var(--k));
+    top: calc(20.717 * var(--k));
+    width: calc(227.948 * var(--k));
+    height: calc(227.948 * var(--k));
+  }
+  .polaroid :global(.polaroid__foto img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

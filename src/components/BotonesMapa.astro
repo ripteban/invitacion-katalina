@@ -1,0 +1,92 @@
+---
+// Botones Google Maps + Waze (Figma 55:156).
+import Img from './Img.astro';
+import pin from '../assets/iconos/gmaps-pin.png';
+import gmapsTexto from '../assets/svg/gmaps-texto.svg?url';
+import wazeIcono from '../assets/svg/waze-icono.svg?url';
+import wazeTexto from '../assets/svg/waze-texto.svg?url';
+import { evento } from '../data/evento';
+
+interface Props {
+  y: number;
+  z: number;
+}
+const { y, z } = Astro.props;
+---
+
+<div class="abs mapas" style={`--x:47.012;--y:${y};--w:317.976;--h:40.63;--z:${z}`}>
+  <a class="mapas__boton mapas__boton--google" href={evento.mapas.google} target="_blank" rel="noopener" aria-label="Abrir ubicación en Google Maps">
+    <span class="mapas__pin"><Img src={pin} ancho={22.449} class="llenar" /></span>
+    <img class="mapas__gtexto" src={gmapsTexto} alt="" width="132" height="24" loading="lazy" />
+  </a>
+  <a class="mapas__boton mapas__boton--waze" href={evento.mapas.waze} target="_blank" rel="noopener" aria-label="Abrir ubicación en Waze">
+    <img class="mapas__wicono" src={wazeIcono} alt="" width="27" height="27" loading="lazy" />
+    <img class="mapas__wtexto" src={wazeTexto} alt="" width="65" height="14" loading="lazy" />
+  </a>
+</div>
+
+<style>
+  .mapas {
+    display: flex;
+    gap: calc(6 * var(--k));
+    align-items: center;
+  }
+  .mapas__boton {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding: calc(6 * var(--k)) calc(14 * var(--k));
+    border-radius: 100px;
+    overflow: clip;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 150ms ease-out;
+  }
+  .mapas__boton:active {
+    transform: scale(0.96);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .mapas__boton {
+      transition:
+        transform 200ms ease-out,
+        box-shadow 200ms ease-out;
+    }
+    .mapas__boton:hover {
+      transform: translateY(calc(-2 * var(--k)));
+      box-shadow: 0 6px 14px -6px rgba(92, 64, 66, 0.35);
+    }
+  }
+  .mapas__boton:focus-visible {
+    outline: 2px solid var(--rosa);
+    outline-offset: 3px;
+  }
+  .mapas__boton--google {
+    background: #fff;
+    gap: calc(8 * var(--k));
+  }
+  .mapas__boton--waze {
+    background: var(--waze);
+    gap: calc(2 * var(--k));
+  }
+  .mapas__pin {
+    position: relative;
+    flex-shrink: 0;
+    width: calc(22.449 * var(--k));
+    height: calc(28.63 * var(--k));
+  }
+  .mapas__gtexto {
+    flex-shrink: 0;
+    width: calc(131.809 * var(--k));
+    height: calc(24.356 * var(--k));
+  }
+  .mapas__wicono {
+    flex-shrink: 0;
+    width: calc(27.073 * var(--k));
+    height: calc(27.068 * var(--k));
+  }
+  .mapas__wtexto {
+    flex-shrink: 0;
+    width: calc(64.645 * var(--k));
+    height: calc(14.207 * var(--k));
+  }
+</style>

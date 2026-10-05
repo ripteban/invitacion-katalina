@@ -1,0 +1,209 @@
+---
+import '@fontsource/montserrat/latin-700.css';
+import '@fontsource/montserrat/latin-700-italic.css';
+import '@fontsource/great-vibes/latin-400.css';
+import '@fontsource/cormorant/latin-400.css';
+import '@fontsource/cormorant/latin-600.css';
+import '@fontsource/cormorant/latin-700.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/animaciones.css';
+import montserrat700 from '@fontsource/montserrat/files/montserrat-latin-700-normal.woff2?url';
+
+import Fondo from '../components/Fondo.astro';
+import Intro from '../components/Intro.astro';
+import Encabezado from '../components/Encabezado.astro';
+import Galeria from '../components/Galeria.astro';
+import TextoDegradado from '../components/TextoDegradado.astro';
+import Separador from '../components/Separador.astro';
+import BotonesMapa from '../components/BotonesMapa.astro';
+import TarjetaTransporte from '../components/TarjetaTransporte.astro';
+import Img from '../components/Img.astro';
+
+import cerezoEsquina from '../assets/decoraciones/cerezo-esquina.png';
+import campoFlores from '../assets/decoraciones/campo-flores.png';
+import cerezoA from '../assets/decoraciones/cerezo-a.png';
+import cerezoB from '../assets/decoraciones/cerezo-b.png';
+import loto from '../assets/decoraciones/loto.png';
+import rosas from '../assets/decoraciones/rosas.png';
+
+import { evento } from '../data/evento';
+import { galeria1, galeria2 } from '../data/galerias';
+
+const sitio = Astro.site ?? new URL(Astro.url.origin);
+const ogImagen = new URL('/og-image.jpg', sitio).href;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{evento.titulo}</title>
+    <meta name="description" content={evento.descripcion} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#FFF8F3" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={montserrat700} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={evento.titulo} />
+    <meta property="og:description" content={evento.descripcion} />
+    <meta property="og:image" content={ogImagen} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_SV" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <noscript>
+      <style>
+        .intro { display: none !important; }
+        .home { opacity: 1 !important; pointer-events: auto !important; }
+        body.bloqueado { overflow: auto !important; }
+      </style>
+    </noscript>
+  </head>
+  <body class="bloqueado">
+    <Fondo />
+    <Intro />
+
+    <main class="home" id="home" inert tabindex="-1">
+      <!-- S1 · Portada -->
+      <section class="seccion" style="--top:0;--extra:0" aria-label="Portada">
+        <Img src={cerezoEsquina} ancho={203.459} class="abs anim-mecer" style="--x:208.541;--y:0;--w:203.459;--h:131.231;--z:29;--origen:100% 0%;--giro:1.5deg;--dur:7s" />
+        <div class="abs" style="--x:17;--y:65;--w:378;--h:239;--z:30">
+          <Encabezado titulo />
+        </div>
+      </section>
+
+      <!-- S2 · Galería 1 -->
+      <Galeria {...galeria1} etiqueta="Fotos de Katalina" pistaY={277} />
+
+      <!-- S3 · Frase 1 -->
+      <section class="seccion" style="--top:868" aria-label="Frase">
+        <TextoDegradado as="h2" fuente="great-vibes" tam={58.579} lh={1.066} angulo={-26.664} x={19.511} y={868.77} w={372.978} z={36}>
+          {evento.frase1}
+        </TextoDegradado>
+        <TextoDegradado fuente="cormorant" tam={22.588} lh={1.068} angulo={-7.061} x={62} y={1009.31} w={288} z={37} style="white-space:nowrap">
+          {evento.subtitulo}
+        </TextoDegradado>
+      </section>
+
+      <!-- S4 · Invitación -->
+      <section class="seccion" style="--top:987" aria-label="Invitación">
+        <Img src={campoFlores} ancho={412.015} class="abs anim-brisa" style="--x:-0.008;--y:987;--w:412.015;--h:204.92;--z:16;--dur:6.5s" />
+        <Separador y={1192} z={17} />
+        <Separador y={1646} z={18} />
+        <TextoDegradado fuente="cormorant" tam={38.815} angulo={-49.156} x={24.801} y={1303} w={362.398} z={19}>
+          {evento.invitacion}
+        </TextoDegradado>
+        <Img src={cerezoA} ancho={119.61} class="abs anim-mecer" style="--x:-35;--y:1201;--w:119.61;--h:119.61;--z:20;--giro:3deg;--dur:6.5s;--retraso:-1s" />
+        <Img src={cerezoA} ancho={146.017} class="abs anim-mecer" style="--x:317.128;--y:1152;--w:146.017;--h:146.017;--z:21;--giro:-3deg;--dur:7s;--retraso:-3s" />
+        <Img src={cerezoB} ancho={151.974} class="abs anim-mecer" style="--x:285.858;--y:1589;--w:151.974;--h:151.974;--z:22;--giro:3deg;--dur:6s;--retraso:-2s" />
+        <Img src={cerezoB} ancho={151.974} class="abs espejo anim-mecer" style="--x:-24.8;--y:1612;--w:151.974;--h:151.974;--z:23;--giro:-3deg;--dur:7.5s;--retraso:-4s" />
+      </section>
+
+      <!-- S5 · Evento -->
+      <section class="seccion" style="--top:1710" aria-label="Fecha, hora y lugar">
+        <div class="abs columna" style="--x:35.5;--y:1710;--w:341;--z:24">
+          <TextoDegradado as="h2" fuente="cormorant" tam={38.815} angulo={-11.579} class="ancho-total">Día:</TextoDegradado>
+          <div class="fecha">
+            <TextoDegradado fuente="great-vibes" tam={35.237} angulo={-34.547}>{evento.dia.semana}</TextoDegradado>
+            <TextoDegradado fuente="great-vibes" tam={125.523} angulo={-69.34}>{evento.dia.numero}</TextoDegradado>
+            <TextoDegradado fuente="great-vibes" tam={26.92} angulo={-19.465}>{evento.dia.mes}</TextoDegradado>
+          </div>
+        </div>
+        <div class="abs columna" style="--x:89.006;--y:1923;--w:234;--z:25">
+          <TextoDegradado as="h2" fuente="cormorant" tam={38.815} angulo={-16.624} class="ancho-total">Hora:</TextoDegradado>
+          <TextoDegradado fuente="great-vibes" tam={102.337} angulo={-39.115} class="ancho-total">{evento.hora}</TextoDegradado>
+        </div>
+        <div class="abs columna" style="--x:19.511;--y:2124;--w:372.978;--z:26;gap:calc(24 * var(--k))">
+          <TextoDegradado as="h2" fuente="cormorant" tam={38.815} angulo={-10.609} class="ancho-total">El lugar:</TextoDegradado>
+          <TextoDegradado fuente="great-vibes" tam={58.579} angulo={-30.194} class="ancho-total">{evento.lugar}</TextoDegradado>
+        </div>
+        <BotonesMapa y={2367} z={27} />
+      </section>
+
+      <!-- S6 · Transporte -->
+      <section class="seccion" style="--top:2455" aria-label="Transporte">
+        <TarjetaTransporte y={2455} z={28} />
+        <Img src={loto} ancho={410.279} class="abs espejo anim-flotar" style="--x:-76.59;--y:2826.48;--w:410.279;--h:273.52;--z:38;--origen:20% 50%;--giro:1deg;--dur:7s" />
+      </section>
+
+      <!-- S7 · Frase 2 -->
+      <section class="seccion" style="--top:3037" aria-label="Frase">
+        <TextoDegradado as="h2" fuente="great-vibes" tam={58.579} lh={1.066} angulo={-26.664} x={19.511} y={3037} w={372.978} z={14}>
+          {evento.frase2}
+        </TextoDegradado>
+      </section>
+
+      <!-- S8 · Galería 2 -->
+      <Galeria {...galeria2} etiqueta="Más fotos de Katalina" desde={3} />
+
+      <!-- S9 · Cierre -->
+      <section class="seccion" style="--top:4439" aria-label="Cierre">
+        <TextoDegradado as="div" fuente="great-vibes" tam={58.579} lh={1.066} angulo={-51.461} x={14.918} y={4439.84} w={372.978} z={15}>
+          <p>{evento.cierre[0]}</p>
+          <p aria-hidden="true">&#8203;</p>
+          <p>{evento.cierre[1]}</p>
+        </TextoDegradado>
+        <Img src={rosas} ancho={303.169} class="abs anim-respirar" style="--x:54.415;--y:4772;--w:303.169;--h:139.761;--z:2;--origen:50% 100%;--dur:5.5s" />
+        <Separador y={4824} z={1} />
+      </section>
+    </main>
+
+    <script>
+      import '../scripts/intro';
+    </script>
+  </body>
+</html>
+
+<style>
+  .home {
+    --k: var(--u);
+    /* Aire extra (px Figma) entre el título y la galería 1 para que respire la pista;
+       todo lo que está debajo de la portada baja esta cantidad. */
+    --extra: 28;
+    position: relative;
+    z-index: 20;
+    width: var(--ancho);
+    height: calc((4955 + var(--extra)) * var(--k));
+    margin: 0 auto;
+    background: var(--fondo-home);
+    overflow: clip;
+    opacity: 0;
+    pointer-events: none;
+    outline: none;
+  }
+  .home.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity var(--dur-dissolve) var(--ease-out);
+  }
+  /* Tablet y escritorio: la invitación es una tarjeta sobre el video de seda */
+  @media (min-width: 600px) {
+    .home {
+      margin: clamp(24px, 5vh, 56px) auto;
+      border-radius: calc(28 * var(--k));
+      box-shadow:
+        0 30px 80px -24px rgba(92, 64, 66, 0.35),
+        0 8px 24px -12px rgba(232, 124, 142, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.7);
+    }
+  }
+  .columna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .columna :global(.ancho-total) {
+    width: 100%;
+  }
+  .fecha {
+    display: flex;
+    gap: calc(17 * var(--k));
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+  }
+</style>

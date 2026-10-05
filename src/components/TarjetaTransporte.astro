@@ -1,0 +1,81 @@
+---
+// Tarjeta "Habrá transporte" (Figma 63:172, 347 × 461).
+import Img from './Img.astro';
+import TextoDegradado from './TextoDegradado.astro';
+import foto from '../assets/fotos/punto-reunion.png';
+import bus from '../assets/svg/bus.svg?url';
+import { evento } from '../data/evento';
+
+interface Props {
+  y: number;
+  z: number;
+}
+const { y, z } = Astro.props;
+const t = evento.transporte;
+---
+
+<div class="abs tarjeta" style={`--x:34;--y:${y};--w:347;--h:461;--z:${z}`}>
+  <div class="tarjeta__banda">
+    <img class="tarjeta__bus anim-vaiven" src={bus} alt="" width="67" height="66" loading="lazy" />
+    <TextoDegradado fuente="montserrat" tam={19.427} angulo={-18.546} class="tarjeta__aviso">{t.aviso}</TextoDegradado>
+  </div>
+  <TextoDegradado as="div" fuente="cormorant" tam={31.981} angulo={-28.125} class="tarjeta__punto">
+    <p><strong class="semibold">Punto de reunión:</strong> {t.punto}</p>
+    <p><strong class="bold">Hora:</strong> {t.hora}</p>
+  </TextoDegradado>
+  <Img src={foto} ancho={304.15} calidad={90} alt={`Iglesia Antioquía, punto de reunión`} class="tarjeta__foto" />
+</div>
+
+<style>
+  .tarjeta {
+    background: #fff;
+    border-radius: calc(16 * var(--k));
+    overflow: clip;
+  }
+  .tarjeta__banda {
+    position: absolute;
+    left: calc(12.139 * var(--k));
+    top: calc(13 * var(--k));
+    display: flex;
+    align-items: center;
+    gap: calc(25 * var(--k));
+    padding: calc(7 * var(--k)) calc(9 * var(--k));
+    border-radius: calc(6 * var(--k));
+    background: var(--banda-transporte);
+  }
+  .tarjeta__bus {
+    flex-shrink: 0;
+    width: calc(67.048 * var(--k));
+    height: calc(66 * var(--k));
+  }
+  .tarjeta :global(.tarjeta__aviso) {
+    flex-shrink: 0;
+    width: calc(212.675 * var(--k));
+    font-style: italic;
+  }
+  .tarjeta :global(.tarjeta__punto) {
+    position: absolute;
+    left: calc(10.808 * var(--k));
+    top: calc(121.433 * var(--k));
+    width: calc(325.384 * var(--k));
+  }
+  .tarjeta strong {
+    font-weight: 600;
+  }
+  .tarjeta strong.bold {
+    font-weight: 700;
+  }
+  .tarjeta :global(.tarjeta__foto) {
+    position: absolute;
+    left: calc(16.034 * var(--k));
+    top: calc(266.866 * var(--k));
+    width: calc(304.15 * var(--k));
+    height: calc(171 * var(--k));
+  }
+  .tarjeta :global(.tarjeta__foto img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: calc(14.708 * var(--k));
+  }
+</style>

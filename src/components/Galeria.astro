@@ -1,0 +1,40 @@
+---
+// "Mesa" de fotos: sección cuyo cuadro es el límite de arrastre.
+import Polaroid from './Polaroid.astro';
+import Sticker from './Sticker.astro';
+import Pista from './Pista.astro';
+import type { Elemento } from '../data/galerias';
+
+interface Props {
+  top: number;
+  alto: number;
+  elementos: Elemento[];
+  etiqueta: string;
+  /** número de la primera foto (para la descripción accesible) */
+  desde?: number;
+  /** muestra la pista "Mantén presionado y mueve las fotos" en esta coordenada y (px Figma) */
+  pistaY?: number;
+}
+const { top, alto, elementos, etiqueta, desde = 1, pistaY } = Astro.props;
+let n = desde - 1;
+let s = desde * 3;
+---
+
+<section class="galeria seccion" style={`--top:${top};--alto:${alto}`} aria-label={etiqueta}>
+  {
+    elementos.map((el) =>
+      el.tipo === 'polaroid' ? (
+        <Polaroid foto={el.foto} x={el.x} y={el.y} w={el.w} h={el.h} rot={el.rot} sombra={el.sombra} z={el.z} indice={++n} />
+      ) : (
+        <Sticker imagen={el.imagen} nombre={el.nombre} x={el.x} y={el.y} w={el.w} h={el.h} sombra={el.sombra} z={el.z} indice={++s} />
+      ),
+    )
+  }
+  {pistaY !== undefined && <Pista y={pistaY} />}
+</section>
+
+<style>
+  .galeria {
+    height: calc(var(--alto) * var(--k));
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+// Fondo de seda (video del Figma "Background"), fijo detrás de todo.
+// Móvil: se ve en la intro y se pausa al abrir (la invitación cubre toda la pantalla).
+// Tablet / escritorio: sigue visible a los lados de la tarjeta.
+import { getImage } from 'astro:assets';
+import poster from '../assets/intro/poster.jpg';
+
+const posterOpt = await getImage({ src: poster, width: 720, format: 'jpg', quality: 72 });
+---
+
+<div class="fondo" id="fondo" style={`background-image:url(${posterOpt.src})`} aria-hidden="true">
+  <video
+    src="/fondo-intro.mp4"
+    poster={posterOpt.src}
+    autoplay
+    muted
+    loop
+    playsinline
+    disablepictureinpicture
+    preload="auto"></video>
+</div>
+
+<style>
+  .fondo {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: #fde3e1 center / cover no-repeat;
+    pointer-events: none;
+  }
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Tablet / escritorio: el video (vertical) se amplía; un leve desenfoque y velo lo suavizan
+     y dan profundidad a la tarjeta. Solo una vez abierta la invitación. */
+  @media (min-width: 600px) {
+    video {
+      transition: filter 600ms var(--ease-out), scale 600ms var(--ease-out);
+    }
+    .fondo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 248, 243, 0.25);
+      opacity: 0;
+      transition: opacity 600ms var(--ease-out);
+    }
+    :global(body:not(.bloqueado)) video {
+      filter: blur(6px) saturate(1.05);
+      scale: 1.06;
+    }
+    :global(body:not(.bloqueado)) .fondo::after {
+      opacity: 1;
+    }
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+// Texto con el degradado de Figma (rosa → café) y su ángulo propio.
+interface Props {
+  as?: 'p' | 'h2' | 'h3' | 'span' | 'div';
+  fuente: 'great-vibes' | 'cormorant' | 'montserrat';
+  /** tamaño en px de Figma */
+  tam: number;
+  /** ángulo del degradado en grados (tal cual Figma) */
+  angulo: number;
+  /** line-height: número (multiplicador) o 'normal'. Ojo: el "85.28 %" de Figma es sobre el alto natural de la fuente (Great Vibes = 1.25) → 1.066 */
+  lh?: number | 'normal';
+  /** posición absoluta en el Home (px Figma); si se omite, el texto fluye */
+  x?: number;
+  y?: number;
+  w?: number;
+  z?: number;
+  class?: string;
+  style?: string;
+}
+
+const { as: Tag = 'p', fuente, tam, angulo, lh = 'normal', x, y, w, z, class: clase, style = '' } = Astro.props;
+const posicion = x !== undefined && y !== undefined;
+const vars = [
+  `--a:${angulo}deg`,
+  `font-size:calc(${tam} * var(--k))`,
+  `line-height:${lh}`,
+  posicion ? `--x:${x};--y:${y}` : '',
+  w !== undefined ? `--w:${w}` : '',
+  z !== undefined ? `--z:${z}` : '',
+  style,
+]
+  .filter(Boolean)
+  .join(';');
+---
+
+<Tag class:list={['texto', 'texto-degradado', fuente, { abs: posicion }, clase]} style={vars}><slot /></Tag>
+
+<style>
+  /* background-clip: text solo pinta dentro de la caja: los trazos de Great Vibes que sobresalen
+     (la "M", la "S", descendentes) quedaban cortados. Se amplía la caja con padding y se compensa
+     con margen negativo, así la posición y el ancho de línea siguen siendo los de Figma. */
+  .texto {
+    box-sizing: content-box;
+    padding: 0.3em 0.35em;
+    margin: -0.3em -0.35em;
+    text-align: center;
+    font-weight: 400;
+    overflow-wrap: break-word;
+  }
+  .montserrat {
+    font-weight: 700;
+  }
+</style>

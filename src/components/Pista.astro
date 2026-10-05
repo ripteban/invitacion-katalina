@@ -1,0 +1,56 @@
+---
+// Pista de uso sobre la galería: "Mantén presionado y mueve las fotos".
+// Se oculta sola después del primer arrastre (src/scripts/arrastrar.ts).
+import mano from '../assets/svg/mano.svg?url';
+
+interface Props {
+  /** coordenada y en el frame Home (px Figma) */
+  y: number;
+}
+const { y } = Astro.props;
+---
+
+<p class="pista" style={`--y:${y}`} role="note">
+  <img class="pista__mano anim-tocar" src={mano} alt="" width="14" height="17" />
+  <span class="pista__texto">Mantén presionado y mueve las fotos</span>
+</p>
+
+<style>
+  .pista {
+    position: absolute;
+    left: 50%;
+    top: calc((var(--y) - var(--top, 0)) * var(--k));
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: calc(6 * var(--k));
+    margin: 0;
+    padding: calc(4 * var(--k)) calc(11 * var(--k)) calc(4 * var(--k)) calc(9 * var(--k));
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 2px 6px rgba(234, 126, 142, 0.25);
+    white-space: nowrap;
+    pointer-events: none;
+    translate: -50% 0;
+    transition: opacity 400ms var(--ease-out), translate 400ms var(--ease-out);
+  }
+  .pista.oculta {
+    opacity: 0;
+    translate: -50% calc(-6 * var(--k));
+  }
+  .pista__mano {
+    width: calc(13 * var(--k));
+    height: calc(16 * var(--k));
+  }
+  .pista__texto {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: calc(11 * var(--k));
+    line-height: 1.2;
+    background-image: linear-gradient(-18deg, #e87c8e 12.683%, #5c4042 92.973%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+</style>

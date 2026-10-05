@@ -1,0 +1,100 @@
+---
+// Botón del sobre con sus dos estados apilados (Figma: Sobre/Default y Sobre/Variant2).
+import Img from './Img.astro';
+import cerradoSobre from '../assets/sobre/cerrado-sobre.png';
+import cerradoSello from '../assets/sobre/cerrado-sello.png';
+import cerradoFloresIzq from '../assets/sobre/cerrado-flores-izq.png';
+import cerradoFloresDer from '../assets/sobre/cerrado-flores-der.png';
+import abiertoSobre from '../assets/sobre/abierto-sobre.png';
+import abiertoSello from '../assets/sobre/abierto-sello.png';
+import abiertoFloresIzq from '../assets/sobre/abierto-flores-izq.png';
+import abiertoFloresDer from '../assets/sobre/abierto-flores-der.png';
+import mano from '../assets/svg/mano.svg?url';
+---
+
+<button class="sobre" type="button" aria-label="Abrir invitación">
+  <span class="sobre__estado sobre__estado--cerrado" aria-hidden="true">
+    <Img src={cerradoSobre} ancho={320.05} escala="intro" class="abs" style="--x:5.18;--y:5.32;--w:320.05;--h:245.98" eager />
+    <Img src={cerradoSello} ancho={72.524} escala="intro" class="abs sello anim-respirar" style="--x:129.91;--y:127.13;--w:72.524;--h:75.505;--escala:1.05;--dur:1.8s" eager />
+    <img class="abs anim-tocar" src={mano} alt="" width="72" height="88" style="--x:244;--y:147;--w:71.868;--h:88.432" />
+    <Img src={cerradoFloresIzq} ancho={132.751} escala="intro" class="abs anim-mecer" style="--x:-21.95;--y:-39.95;--w:132.751;--h:130.981;--origen:80% 80%;--giro:3deg;--dur:5s" eager />
+    <Img src={cerradoFloresDer} ancho={105.09} escala="intro" class="abs anim-mecer" style="--x:264.99;--y:-40.66;--w:105.09;--h:127.163;--origen:20% 80%;--giro:-3deg;--dur:5.5s;--retraso:-2s" eager />
+  </span>
+  <span class="sobre__estado sobre__estado--abierto" aria-hidden="true">
+    <Img src={abiertoSobre} ancho={322.58} escala="intro" class="abs" style="--x:6.05;--y:1.93;--w:322.58;--h:407.76" eager />
+    <Img src={abiertoFloresIzq} ancho={132.751} escala="intro" class="abs anim-mecer" style="--x:-34.38;--y:113.62;--w:132.751;--h:130.981;--origen:80% 80%;--giro:3deg;--dur:5s" eager />
+    <Img src={abiertoSello} ancho={72.524} escala="intro" class="abs sello sello--redondeado" style="--x:129.83;--y:250.51;--w:72.524;--h:75.505" eager />
+    <Img src={abiertoFloresDer} ancho={111.111} escala="intro" class="abs anim-mecer" style="--x:257.6;--y:84.27;--w:111.111;--h:134.448;--origen:20% 80%;--giro:-3deg;--dur:5.5s;--retraso:-2s" eager />
+  </span>
+</button>
+
+<style>
+  .sobre {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+    width: calc(333 * var(--k));
+    height: calc(252 * var(--k));
+    cursor: pointer;
+    transition: height var(--dur-gentle) var(--ease-gentle);
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+  /* Mouse: el sobre se acerca un poco para invitar al clic */
+  @media (hover: hover) and (pointer: fine) {
+    .sobre {
+      transition:
+        height var(--dur-gentle) var(--ease-gentle),
+        scale 400ms var(--ease-gentle);
+    }
+    .sobre:hover:not(:disabled) {
+      scale: 1.04;
+    }
+  }
+  .sobre:focus-visible {
+    outline: 2px solid var(--rosa);
+    outline-offset: 6px;
+    border-radius: 8px;
+  }
+  /* Ambos estados anclados abajo y centrados: al crecer la caja, el sobre "se abre" hacia arriba */
+  .sobre__estado {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    translate: -50% 0;
+    transition: opacity var(--dur-gentle) var(--ease-gentle);
+  }
+  .sobre__estado--cerrado {
+    width: calc(333 * var(--k));
+    height: calc(252 * var(--k));
+  }
+  .sobre__estado--abierto {
+    width: calc(332.26 * var(--k));
+    height: calc(415.194 * var(--k));
+    opacity: 0;
+  }
+  .sobre :global(.sello) {
+    filter: var(--sombra-sello);
+  }
+  .sobre :global(.sello--redondeado img) {
+    border-radius: calc(2 * var(--k));
+  }
+
+  :global(.intro.abriendo) .sobre {
+    height: calc(415.194 * var(--k));
+    cursor: default;
+  }
+  :global(.intro.abriendo) .sobre__estado--cerrado {
+    opacity: 0;
+  }
+  :global(.intro.abriendo) .sobre__estado--abierto {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sobre,
+    .sobre__estado {
+      transition-duration: 300ms;
+      transition-timing-function: ease;
+    }
+  }
+</style>

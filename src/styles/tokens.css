@@ -1,0 +1,47 @@
+:root {
+  /* Escala 1:1 con Figma: todo valor de diseño (px a 412 de ancho) se multiplica por --u.
+     --ancho es el ancho de la invitación (ver breakpoints abajo). */
+  --ancho: 100vw;
+  --u: calc(var(--ancho) / 412);
+  /* Intro: cabe en ancho y en alto (sobre abierto = contenedor de 759 px), con tope en pantallas grandes */
+  --ui: min(calc(100vw / 412), calc(100svh / 820), 1.6px);
+
+  /* Colores */
+  --fondo-home: linear-gradient(to bottom, #fff8f3, #ffdbd8);
+  --rosa: #e87c8e;
+  --cafe: #5c4042;
+  --gris: #595959;
+  --degradado-intro: linear-gradient(-90deg, #5c4042 0%, #cda1a4 48.077%, #5c4042 100%);
+  --waze: #33ccff;
+  --banda-transporte: rgba(232, 123, 142, 0.1);
+
+  /* Sombras */
+  --sombra-polaroid-a: 0 4px 4px rgba(234, 126, 142, 0.25);
+  --sombra-polaroid-b: -2px -2px 4px rgba(235, 127, 142, 0.25);
+  --sombra-polaroid-levantada: 0 12px 24px rgba(234, 126, 142, 0.35);
+  --sombra-sticker: drop-shadow(0 4px 4px rgba(235, 127, 142, 0.25));
+  --sombra-sello: drop-shadow(0 4px 4px #724535);
+
+  /* Curvas (Figma) */
+  /* Gentle = resorte masa 1, rigidez 100, amortiguación 15, muestreado a 1.022 s */
+  --ease-gentle: linear(0, 0.101, 0.308, 0.528, 0.714, 0.852, 0.942, 0.995, 1.02, 1.028,
+    1.027, 1.021, 1.015, 1.01, 1.005, 1.002, 1, 1, 0.999, 0.999, 1);
+  --dur-gentle: 1022ms;
+  --ease-out: cubic-bezier(0, 0, 0.58, 1);
+  --dur-dissolve: 300ms;
+}
+
+/* ---------- Breakpoints (si se cambian, actualizar también "sizes" en Img.astro) ----------
+   Móvil (< 600 px): la invitación ocupa todo el ancho, como en Figma.
+   Tablet vertical: tarjeta centrada de hasta 640 px.
+   Tablet horizontal / escritorio: tarjeta de 440–540 px sobre el video de seda. */
+@media (min-width: 600px) {
+  :root {
+    --ancho: clamp(440px, 34vw, 540px);
+  }
+}
+@media (min-width: 600px) and (orientation: portrait) {
+  :root {
+    --ancho: min(100vw - 128px, 640px);
+  }
+}
