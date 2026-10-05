@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Edición demo · Katalina</title>
+<style>
+  @font-face { font-family: 'Great Vibes'; src: url('../node_modules/@fontsource/great-vibes/files/great-vibes-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Montserrat'; font-weight: 500; src: url('../node_modules/@fontsource/montserrat/files/montserrat-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Montserrat'; font-weight: 700; src: url('../node_modules/@fontsource/montserrat/files/montserrat-latin-700-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Cormorant'; font-weight: 500; src: url('../node_modules/@fontsource/cormorant/files/cormorant-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Cormorant'; font-weight: 500; font-style: italic; src: url('../node_modules/@fontsource/cormorant/files/cormorant-latin-500-italic.woff2') format('woff2'); }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #fde3e1; }
+  .degradado {
+    background-image: linear-gradient(var(--a, -30deg), #e87c8e 12%, #5c4042 93%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  /* Fondo: la seda del video, difuminada */
+  #fondo { position: absolute; inset: 0; overflow: hidden; }
+  #fondo img { position: absolute; inset: -60px; width: calc(100% + 120px); height: calc(100% + 120px); object-fit: cover; filter: blur(22px) saturate(1.08); }
+  #fondo::after { content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 55% at 50% 45%, rgba(255,248,243,.55), rgba(255,248,243,.15) 70%),
+                linear-gradient(to bottom, rgba(255,248,243,.35), rgba(255,219,216,.1)); }
+
+  /* Teléfono */
+  #camara { position: absolute; inset: 0; transform-origin: 0 0; will-change: transform; }
+  #telefono { position: absolute; left: 185px; top: 330px; width: 710px; height: 1536px; padding: 18px; border-radius: 98px;
+    background: linear-gradient(150deg, #3a2e31 0%, #17110f 45%, #2a2023 100%);
+    box-shadow: 0 70px 140px -40px rgba(92,64,66,.6), 0 30px 70px -30px rgba(232,124,142,.55), inset 0 0 0 2px rgba(255,255,255,.10), inset 0 0 0 7px rgba(0,0,0,.35); }
+  #telefono::before, #telefono::after { content: ''; position: absolute; width: 6px; border-radius: 3px; background: #2a2023; }
+  #telefono::before { left: -5px; top: 300px; height: 110px; box-shadow: 0 150px 0 #2a2023; }
+  #telefono::after { right: -5px; top: 380px; height: 170px; }
+  #pantalla { position: relative; width: 674px; height: 1500px; border-radius: 80px; overflow: hidden; background: #fff8f3; }
+  #pantalla img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #isla { position: absolute; left: 50%; top: 20px; width: 196px; height: 54px; translate: -50% 0; border-radius: 27px; background: #0c0909; }
+  #brillo { position: absolute; inset: 0; border-radius: 80px; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 28%); }
+
+  /* Rótulos de cada paso */
+  .rotulo { position: absolute; left: 50%; top: 86px; width: 940px; translate: -50% 0; display: flex; align-items: center; gap: 30px;
+    padding: 30px 40px; border-radius: 36px; background: rgba(255,250,247,.82); backdrop-filter: blur(18px);
+    box-shadow: 0 24px 60px -24px rgba(92,64,66,.45), inset 0 0 0 1.5px rgba(255,255,255,.8); opacity: 0; }
+  .num { flex: none; width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center;
+    background: linear-gradient(140deg, #f09aa8, #c86478); color: #fff; font: 700 36px/1 'Montserrat'; letter-spacing: 1px;
+    box-shadow: 0 10px 24px -8px rgba(200,100,120,.7); }
+  .textos { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .titulo { font: 700 43px/1.15 'Montserrat'; --a: -12deg; }
+  .sub { font: italic 500 37px/1.2 'Cormorant'; color: #7a5a5d; }
+
+  /* Tarjetas de inicio y cierre */
+  .tarjeta { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; }
+  .nombre { font: 230px/1 'Great Vibes'; --a: -20deg; padding: 0 60px 40px; margin-bottom: -30px; }
+  .quince { font: 500 84px/1 'Cormorant'; color: #6b4b4e; letter-spacing: 2px; }
+  .etiqueta { margin-top: 56px; font: 500 30px/1 'Montserrat'; letter-spacing: 9px; text-transform: uppercase; color: #a46d75; }
+  .linea { width: 120px; height: 2px; margin: 46px auto 0; background: linear-gradient(90deg, transparent, #e87c8e, transparent); }
+  .fecha { margin-top: 44px; font: italic 500 50px/1.2 'Cormorant'; color: #6b4b4e; }
+  .enlace { margin-top: 70px; padding: 26px 46px; border-radius: 999px; background: rgba(255,255,255,.9);
+    box-shadow: 0 20px 50px -20px rgba(92,64,66,.5), inset 0 0 0 1.5px rgba(232,124,142,.35); font: 700 34px/1 'Montserrat'; }
+  .enlace span { display: inline-block; --a: -8deg; }
+  .tiara { width: 300px; margin-bottom: -26px; rotate: -8deg; filter: drop-shadow(0 10px 20px rgba(232,124,142,.35)); }
+  .nota { margin-top: 30px; font: 500 28px/1.3 'Montserrat'; color: #a46d75; }
+</style>
+</head>
+<body>
+  <div id="fondo"><img id="fondo-img" alt="" /></div>
+
+  <div id="camara">
+    <div id="telefono">
+      <div id="pantalla"><img id="cuadro" alt="" /><div id="isla"></div><div id="brillo"></div></div>
+    </div>
+  </div>
+
+  <div id="rotulos"></div>
+
+  <div class="tarjeta" id="inicio">
+    <img class="tiara" src="../src/assets/comun/tiara.png" alt="" />
+    <div class="nombre degradado">Katalina</div>
+    <div class="quince">Mis 15 Años</div>
+    <div class="linea"></div>
+    <div class="etiqueta">Invitación digital</div>
+  </div>
+
+  <div class="tarjeta" id="final">
+    <img class="tiara" src="../src/assets/comun/tiara.png" alt="" />
+    <div class="nombre degradado">Katalina</div>
+    <div class="quince">Mis 15 Años</div>
+    <div class="fecha">Sábado 21 de noviembre · 2026</div>
+    <div class="enlace"><span class="degradado">katalina-invitacion-a-mis15.pages.dev</span></div>
+    <div class="nota">Ábrela desde tu celular</div>
+  </div>
+
+<script>
+  // ---------- Utilidades de animación ----------
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const io = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2); // ease in-out cúbica
+  const out = (k) => 1 - Math.pow(1 - k, 3);
+  const outBack = (k, s = 1.4) => 1 + (s + 1) * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2);
+  /** 0→1 en [a, a+d] */
+  const tramo = (t, a, d) => clamp((t - a) / d);
+
+  let C; // configuración (la llena editar.mjs)
+  const PANT = { x: 185 + 18, y: 330 + 18, w: 674, h: 1500 }; // pantalla en el escenario
+  const FOCO = { x: 540, y: 1120 }; // punto del escenario donde se centra el zoom
+
+  window.configurar = (cfg) => {
+    C = cfg;
+    const cont = document.getElementById('rotulos');
+    C.rotulos.forEach((r, i) => {
+      const el = document.createElement('div');
+      el.className = 'rotulo';
+      el.innerHTML = `<div class="num">${String(i + 1).padStart(2, '0')}</div><div class="textos"><div class="titulo degradado">${r.titulo}</div>${r.sub ? `<div class="sub">${r.sub}</div>` : ''}</div>`;
+      cont.append(el);
+      r.el = el;
+    });
+  };
+
+  /** cámara: interpola {s, x, y} (x, y = punto de la pantalla capturada, en px de captura) */
+  function camara(t) {
+    const k = C.camara;
+    if (t <= k[0].t) return k[0];
+    for (let i = 1; i < k.length; i++) {
+      if (t <= k[i].t) {
+        const a = k[i - 1], b = k[i];
+        const e = io((t - a.t) / (b.t - a.t));
+        return { s: lerp(a.s, b.s, e), x: lerp(a.x, b.x, e), y: lerp(a.y, b.y, e) };
+      }
+    }
+    return k[k.length - 1];
+  }
+
+  function cargar(img, src) {
+    if (img.getAttribute('src') === src) return Promise.resolve();
+    img.src = src;
+    return img.decode().catch(() => {});
+  }
+
+  window.render = async (t) => {
+    const { T0, T1, fps, total, escalaCaptura } = C;
+    // --- fondo de seda (continúa en bucle)
+    const nf = (Math.floor(t * 30) % 480) + 1;
+    const pFondo = cargar(document.getElementById('fondo-img'), `captura/fondo/${String(nf).padStart(4, '0')}.jpg`);
+    // --- cuadro de la grabación
+    const idx = clamp(Math.round((t - C.inicioCaptura) * fps), 0, total - 1);
+    const pCuadro = cargar(document.getElementById('cuadro'), `captura/cuadros/${String(idx).padStart(5, '0')}.jpg`);
+
+    // --- teléfono: sube al inicio, se aleja al final
+    const subida = outBack(tramo(t, 1.7, 1.1), 1.1);
+    const salida = io(tramo(t, T1 - 0.2, 0.9));
+    const tel = document.getElementById('telefono');
+    tel.style.translate = `0 ${(1 - subida) * 1700 + salida * 140}px`;
+    tel.style.scale = String(1 - salida * 0.12);
+    tel.style.opacity = String(1 - salida);
+
+    // --- cámara (zoom)
+    const c = camara(t);
+    const k = PANT.w / C.anchoCaptura;
+    const px = PANT.x + c.x * k, py = PANT.y + c.y * k;
+    // en escala 1 el punto queda donde está; al acercar se lleva hacia FOCO
+    const m = c.s === 1 ? 0 : clamp((c.s - 1) / 0.35);
+    const fx = lerp(px, FOCO.x, m), fy = lerp(py, FOCO.y, m);
+    document.getElementById('camara').style.transform = `translate(${fx - px * c.s}px, ${fy - py * c.s}px) scale(${c.s})`;
+
+    // --- tarjeta de inicio
+    const ini = document.getElementById('inicio');
+    const aIn = out(tramo(t, 0.15, 0.9)), aOut = io(tramo(t, 1.6, 0.6));
+    ini.style.opacity = String(aIn * (1 - aOut));
+    ini.style.translate = `0 ${(1 - aIn) * 40 - aOut * 120}px`;
+    ini.style.scale = String(0.96 + aIn * 0.04);
+
+    // --- rótulos
+    for (const r of C.rotulos) {
+      const ent = out(tramo(t, r.desde, 0.45)), sal = io(tramo(t, r.hasta - 0.35, 0.35));
+      const v = ent * (1 - sal);
+      r.el.style.opacity = String(v);
+      r.el.style.translate = `-50% ${(1 - ent) * -28 + sal * -18}px`;
+      r.el.style.scale = String(0.97 + ent * 0.03);
+    }
+
+    // --- tarjeta final
+    const fin = document.getElementById('final');
+    const f1 = out(tramo(t, T1 + 0.35, 0.9));
+    fin.style.opacity = String(f1);
+    fin.style.translate = `0 ${(1 - f1) * 50}px`;
+    [...fin.children].forEach((el, i) => {
+      const e = out(tramo(t, T1 + 0.35 + i * 0.12, 0.8));
+      el.style.opacity = String(e);
+      el.style.translate = `0 ${(1 - e) * 30}px`;
+    });
+
+    await Promise.all([pFondo, pCuadro]);
+  };
+</script>
+</body>
+</html>

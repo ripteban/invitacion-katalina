@@ -11,6 +11,7 @@ import '../styles/animaciones.css';
 import montserrat700 from '@fontsource/montserrat/files/montserrat-latin-700-normal.woff2?url';
 
 import Fondo from '../components/Fondo.astro';
+import Musica from '../components/Musica.astro';
 import Intro from '../components/Intro.astro';
 import Encabezado from '../components/Encabezado.astro';
 import Galeria from '../components/Galeria.astro';
@@ -151,6 +152,8 @@ const ogImagen = new URL('/og-image.jpg', sitio).href;
         <Separador y={4824} z={1} />
       </section>
     </main>
+
+    <Musica />
 
     <script>
       import '../scripts/intro';

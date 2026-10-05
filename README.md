@@ -36,6 +36,8 @@ npm run build      # genera dist/ (lo que se publica)
   - Fotos: recorte exacto de Figma sobre el original de mayor resolución, guardado sin pérdida (PNG) a resolución nativa (1100–1800 px), sin recomprimir.
   - Foto 1: versión natural (la de Figma era una edición retocada); su encuadre se alinea con `scripts/alinear-fotos.py` (requiere `pip install opencv-python-headless`).
   - Campo de flores: fundido con el degradado de la página para quitar la transparencia (pesa ~⅓).
+- **Medios** (`public/medios/`): video de fondo y música (`musica.m4a`, generada desde `entrada/musica.mp3` con `npm run recursos`). Se sirven con `functions/medios/[archivo].js` (Cloudflare Pages Function) porque Safari en iPhone exige respuestas por partes (206) y los estáticos de Pages responden completos (200).
+- **Música** (`Musica.astro`, `src/scripts/musica.ts`): empieza al tocar el sobre (los navegadores no permiten sonido antes de un toque), botón flotante para silenciar, se pausa al salir de la pestaña. En iPhone con ahorro de batería el video de fondo arranca con el primer toque.
 - **Privacidad**: `noindex` en meta, `X-Robots-Tag` en `public/_headers` y `robots.txt` con `Disallow: /`.
 
 ## Carpetas de trabajo (no se publican)

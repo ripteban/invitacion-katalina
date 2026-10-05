@@ -105,9 +105,15 @@ async function svg(src, ruta) {
 // se recortan 8 px por lado manteniendo 9:16.
 execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', `${IN}/Fondo.mp4`, '-an', '-vf', 'crop=1064:1892,scale=720:1280:flags=lanczos',
   '-c:v', 'libx264', '-profile:v', 'high', '-pix_fmt', 'yuv420p', '-crf', '26', '-preset', 'slow', '-movflags', '+faststart',
-  'public/fondo-intro.mp4']);
+  'public/medios/fondo-intro.mp4']);
 execFileSync('ffmpeg', ['-y', '-v', 'error', '-ss', '1', '-i', `${IN}/Fondo.mp4`, '-frames:v', '1', '-vf', 'crop=1064:1892', '-q:v', '2', await salida('intro/poster.jpg')]);
-console.log('video public/fondo-intro.mp4 + intro/poster.jpg');
+console.log('video public/medios/fondo-intro.mp4 + intro/poster.jpg');
+// Música de fondo: sin el silencio final, volumen de fondo (-21 LUFS), fundidos de entrada/salida
+// incluidos (en iPhone el volumen no se controla desde la página) y AAC para iPhone y Android.
+execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', `${IN}/musica.mp3`, '-af',
+  'atrim=0:269.3,asetpts=N/SR/TB,loudnorm=I=-21:TP=-2:LRA=9,afade=t=in:d=2.5,afade=t=out:st=266.3:d=3',
+  '-ar', '44100', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', 'public/medios/musica.m4a']);
+console.log('música public/medios/musica.m4a');
 await recortarAlfa(`${IN}/1.png`, 'sobre/cerrado-sobre.png');
 await recortarAlfa(`${IN}/2.png`, 'sobre/abierto-sobre.png');
 await png(`${RAW}/cerrado-sello.png`, 'sobre/cerrado-sello.png', 72.524, 75.505);
