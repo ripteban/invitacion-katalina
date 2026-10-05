@@ -6,7 +6,7 @@ export const evento = {
   frase1: 'Hay momentos que nos hacen florecer',
   subtitulo: 'Quiero compartir el mío contigo',
   invitacion:
-    'Junto a mi familia Melgar Aquino, tengo el honor de invitarte a celebrar mis 15 años rodeada de las personas que más quiero.',
+    'Junto a mi familia, tengo el honor de invitarte a celebrar mis 15 años rodeada de las personas que más quiero.',
 
   dia: { semana: 'Sábado', numero: '21', mes: 'Noviembre 2026' },
   hora: '3:30pm',

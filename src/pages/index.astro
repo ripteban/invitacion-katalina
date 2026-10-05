@@ -95,7 +95,8 @@ const ogImagen = new URL('/og-image.jpg', sitio).href;
         <Img src={campoFlores} ancho={412.015} class="abs anim-brisa" style="--x:-0.008;--y:987;--w:412.015;--h:204.92;--z:16;--dur:6.5s" />
         <Separador y={1192} z={17} />
         <Separador y={1646} z={18} />
-        <TextoDegradado fuente="cormorant" tam={38.815} angulo={-49.156} x={24.801} y={1303} w={362.398} z={19}>
+        <!-- Centrado verticalmente entre las dos franjas (como en Figma), así se ajusta si el texto cambia de largo -->
+        <TextoDegradado fuente="cormorant" tam={38.815} angulo={-49.156} x={24.801} y={1444} w={362.398} z={19} style="translate:0 -50%;text-wrap:balance">
           {evento.invitacion}
         </TextoDegradado>
         <Img src={cerezoA} ancho={119.61} class="abs anim-mecer" style="--x:-35;--y:1201;--w:119.61;--h:119.61;--z:20;--giro:3deg;--dur:6.5s;--retraso:-1s" />
