@@ -162,9 +162,17 @@ await fotoNativa(`${RAW}/g2-2.png`, 'fotos/g2-2.png', await encuadre(`${RAW}/g2-
 await fotoNativa(`${RAW}/g2-3.png`, 'fotos/g2-3.png', await encuadre(`${RAW}/g2-3.png`, { l: -0.0054, t: -0.2787, w: 1 }));
 await fotoNativa(`${RAW}/g2-4.png`, 'fotos/g2-4.png', await encuadre(`${RAW}/g2-4.png`, { l: 0.0001, t: 0, w: 1 }));
 await fotoNativa(`${RAW}/g2-5.png`, 'fotos/g2-5.png', await encuadre(`${RAW}/g2-5.png`, { l: -0.1334, t: -0.4398, w: 1.2544 }));
-// Iglesia: original 900×506, sin ampliar
-await sharp(`${RAW}/iglesia.png`).png({ compressionLevel: 9 }).toFile(await salida('fotos/punto-reunion.png'));
-console.log('foto fotos/punto-reunion.png 900×506');
+// Punto de reunión (foto entregada, entrada/punto-reunion.jpg): encuadre del recuadro 304.15×171,
+// maestro sin pérdida a 4× (1217 px de ancho), sin ampliar si la foto es más chica.
+{
+  const { width: sw } = await sharp(`${IN}/punto-reunion.jpg`).metadata();
+  const ancho = Math.min(sw, Math.round(304.15 * 4));
+  await sharp(`${IN}/punto-reunion.jpg`)
+    .resize(ancho, Math.round((ancho * 171) / 304.15), { fit: 'cover', kernel: 'lanczos3' })
+    .png({ compressionLevel: 9 })
+    .toFile(await salida('fotos/punto-reunion.png'));
+  console.log(`foto fotos/punto-reunion.png ${ancho} px`);
+}
 
 // ---------- Stickers ----------
 await png(`${RAW}/lirio.png`, 'stickers/lirio.png', 160.239);
